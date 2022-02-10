@@ -3,6 +3,10 @@ tags:
   - vim
 ---
 
+# Vim Cheatsheet
+
+![img](https://slack-imgs.com/?c=1&o1=ro&url=https%3A%2F%2Fi.redd.it%2Fqk1hw5l34ke81.jpg)
+
 # Vim hot key and control
 
 - ctrl + z : put current editor to background
@@ -157,7 +161,7 @@ ctrl + u: delete all words before the current cursor(insert mode)
 
 0. 直接以分栏方式打开多个文件
  $ vim -on file1 file2 ... filen      上下分栏打开n个文件
-  $ vim -On file1 file2 ... filen      左右分栏打开n个文件
+    $ vim -On file1 file2 ... filen      左右分栏打开n个文件
 
 1. 当前编辑文件分栏，两栏内容相同
     :sp      上下分割，快捷键Ctrl+ws
