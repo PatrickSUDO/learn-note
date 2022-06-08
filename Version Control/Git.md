@@ -279,3 +279,24 @@ switch 的使用方式简单且专一，它无法像 checkout 一样对指定提
 $ git switch ea4c48a
 fatal: 期望一个分支，得到提交 'ea4c48a'
 ```
+
+
+
+
+
+
+
+
+
+## GitHub pull request showing commits that are already in target branch
+
+Suppose that you want to merge into `master` from `feature-01`:
+
+```
+git fetch origin
+git checkout feature-01
+git rebase origin/master
+git push --force-with-lease
+```
+
+If you are working on a fork then you might need to replace `origin` above with `upstream`. See *[How do I update a GitHub forked repository?](https://stackoverflow.com/a/7244456/4694621)* to learn more about tracking remote branches of the original repository.

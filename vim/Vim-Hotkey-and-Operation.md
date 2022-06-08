@@ -177,10 +177,24 @@ Ctrl+w+ ← / ↓ / ↑  / →  ——功能同上
 Ctrl+ww——切换到下一个窗格中，周而复始
 
 4. 关闭分栏
-Ctrl+w+c         松开Ctrl再按c，否则命令无效
-
+  Ctrl+w+c         松开Ctrl再按c，否则命令无效
 5. 调整当前分栏大小（下面的n代表的是数字，并非字母n。省略n只缩放1行/列）
-Ctrl+w+n>      左右扩大n列
-Ctrl+w+n<      左右缩小n列
-Ctrl+w+n+      上下扩大n行
-Ctrl+w+n-      上下缩小n行
+  Ctrl+w+n>      左右扩大n列
+  Ctrl+w+n<      左右缩小n列
+  Ctrl+w+n+      上下扩大n行
+  Ctrl+w+n-      上下缩小n行
+
+
+
+---
+
+## vimrc
+
+```bash
+set number                                                                  
+set clipboard=unnamed
+set hlsearch
+set cursorline
+set noswapfile
+```
+
