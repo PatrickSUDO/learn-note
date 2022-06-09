@@ -15,19 +15,6 @@ Iterm2 + zsh
 
 
 
-
-
-```
-# Powerlevel9k icon 顯示
-POWERLEVEL9K_MODE='nerdfont-complete'
-# Powerlevel9k command line 左邊想顯示的內容
-POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(virtualenv dir dir_writable vcs) 
-# Powerlevel9k command line 右邊想顯示的內容
-POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status ram)
-```
-
-
-
 - Alfred4 and reset the hotkey
 - Docker setting
 
@@ -35,7 +22,57 @@ POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status ram)
 
 ## Terminal setup (oh-my-zsh + iterms)
 
+### Setting Up Homebrew
 
+[Homebrew](http://brew.sh/) 
+
+```
+export PATH="/usr/local/bin:/usr/local/sbin:~/bin:$PATH"
+```
+
+```
+brew doctor
+```
+
+```
+brew update
+```
+
+### Enabling Auto Completion of Commands
+
+Many command-line tools provide automatic completion of commands. These include Git, curl and the AWS command-line tool. Homebrew installs the files for each command-line tool that provides completion, but it does not enable automatic completion in your shell.
+
+To enable auto completion, edit the file *.zshrc* in your home directory to include this line:
+
+```bash
+autoload bashcompinit && bashcompinit
+```
+
+Close all of the Terminal windows. Every new Terminal window will support autocompletion.
+
+To use auto completion, type the name of the command, and press the Tab key on your keyboard. You will see a list of possible completions. Press the Tab key to cycle through the completions, and press the Enter key to accept a completion.
+
+### Installing the Git Version Control System
+
+```
+brew install git
+```
+
+```
+git config --global user.name "Your Name"
+git config --global user.email "you@your-domain.com"
+```
+
+```
+git config --global color.ui auto
+
+```
+
+
+
+
+
+## Terminal customization
 
 ```bash
 brew install iterm2
@@ -87,9 +124,16 @@ brew cask install font-hack-nerd-font
 
 #### zshrc 设置字体
 
+先安裝powerlevel10k
+
+```
+git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/themes/powerlevel10k
+```
+
+
+
 ```bash
-POWERLEVEL9K_MODE="nerdfont-complete"
-ZSH_THEME="powerlevel10k/powerlevel10k"复制代码
+ZSH_THEME="powerlevel10k/powerlevel10k"
 ```
 
 注意，需要设置在 `ZSH_THEME` 之前。
@@ -102,6 +146,19 @@ ZSH_THEME="powerlevel10k/powerlevel10k"复制代码
 
 这样，所有的图标就都可以正常显示了。
 
+
+
+```
+# Powerlevel9k icon 顯示
+POWERLEVEL9K_MODE='nerdfont-complete'
+# Powerlevel9k command line 左邊想顯示的內容
+POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(virtualenv dir dir_writable vcs) 
+# Powerlevel9k command line 右邊想顯示的內容
+POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status ram)
+```
+
+
+
 ## colors
 
 这是一个文件目录美化插件，如图所示：
@@ -112,7 +169,7 @@ ZSH_THEME="powerlevel10k/powerlevel10k"复制代码
 gem install colorls
 ```
 
-然后执行 `colors` 就好了，你也可以设置 `alias` 更高效一点：
+然后执行 `colorls` 就好了，你也可以设置 `alias` 更高效一点：
 
 ```bash
 alias lc='colorls -lA --sd'
@@ -120,7 +177,18 @@ alias lc='colorls -lA --sd'
 
 设置了别名之后，就像我一样，输入 `lc` 就好了。
 
-我就只用了以上几个插件，已经能够大幅度提升工作效率了，如果有其它好用的插件，一定要告诉我呀。
+
+
+**調整顯示顏色：**
+
+```bash
+# 替換調 fg=8 換成其他顏色
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=30'
+```
+
+`fg=8` 的數字是 0 ~ 255，或者直接填寫常用的 8 種顏色文字 `black, red, green, yellow, blue, magenta, cyan and white` 我自己是習慣使用 `fg=30`的色票，不會太搶眼卻又不至於看不到文字。
+
+
 
 ## Zsh-autosuggestions
 
@@ -130,7 +198,8 @@ alias lc='colorls -lA --sd'
 
 ```bash
 # 下載套件至 Zsh 的 plugin 裡
-$ git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions# 啟用套件（在 ~/.zshrc 裡）
+git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+# 啟用套件（在 ~/.zshrc 裡）
 plugins=(zsh-autosuggestions)
 ```
 
@@ -140,20 +209,11 @@ plugins=(zsh-autosuggestions)
 > ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 > ```
 
-**調整顯示顏色：**
-
-```bash
-# 替換調 fg=8 換成其他顏色
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=8'
-```
-
-`fg=8` 的數字是 0 ~ 255，或者直接填寫常用的 8 種顏色文字 `black, red, green, yellow, blue, magenta, cyan and white` 我自己是習慣使用 `fg=30`的色票，不會太搶眼卻又不至於看不到文字。
-
 
 
 ```bash
-＃If not working 
-source .oh-my-zsh/custom/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+＃If not working 加在~/.zshrc
+source ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 ```
 
 
@@ -164,15 +224,16 @@ source .oh-my-zsh/custom/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 ```bash
 # 下載套件
-$ git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting# 啟用套件
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+# 啟用套件
 plugins=(git zsh-autosuggestions zsh-syntax-highlighting)
 ```
 
 
 
 ```bash
-#if not working 
-source .oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+#if not working 加在~/.zshrc
+source ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax highlighting.zsh
 ```
 
 
@@ -199,7 +260,6 @@ brew install navi
 
 ```bash
 brew install autojump
-复制代码
 ```
 
 ##### 配置
@@ -208,7 +268,6 @@ brew install autojump
 
 ```bash
 [[ -s $(brew --prefix)/etc/profile.d/autojump.sh ]] && . $(brew --prefix)/etc/profile.d/autojump.sh
-复制代码
 ```
 
 然后就是 `source` 一下就生效了。
@@ -220,6 +279,15 @@ brew install autojump
 ![img](https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2020/6/1/1727002559305cd1~tplv-t2oaga2asx-zoom-in-crop-mark:1304:0:0:0.awebp)
 
 前提是你访问过 `articles` 目录，也就是你得让它记住。
+
+
+
+```
+#Fix zsh too many warning
+ZSH_DISABLE_COMPFIX=true
+```
+
+
 
 
 
@@ -242,12 +310,7 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=30'
 ZSH_DISABLE_COMPFIX=true
 
-# Powerlevel9k icon 顯示
-POWERLEVEL9K_MODE='nerdfont-complete'
-# Powerlevel9k command line 左邊想顯示的內容
-POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(virtualenv dir dir_writable vcs) 
-# Powerlevel9k command line 右邊想顯示的內容
-POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status ram)
+
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
