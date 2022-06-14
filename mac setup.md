@@ -282,6 +282,12 @@ brew install autojump
 
 
 
+
+
+## Fix 
+
+### Fix zsh too many warning
+
 ```
 #Fix zsh too many warning
 ZSH_DISABLE_COMPFIX=true
@@ -289,7 +295,13 @@ ZSH_DISABLE_COMPFIX=true
 
 
 
+### Fix the hotkey change in iterm2
 
+- Go to iTerm Preferences → Profiles
+- select your profile
+- then the `Keys` tab with its sub-tab `Key Mappings`
+- Click `Load Preset`...
+- and choose `Natural Text Editing`
 
 ---
 
@@ -410,8 +422,9 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-export PATH=/usr/local/bin:$PATH
-export PATH="/usr/local/opt/python/libexec/bin:$PATH"
+#M1
+export PATH="/opt/homebrew/bin:$PATH"
+export PATH="/opt/homebrew/opt/python/libexec/bin:$PATH"
 
 
 source ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
@@ -425,8 +438,10 @@ source ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 # Powerlevel9k icon 顯示
 POWERLEVEL9K_MODE='nerdfont-complete'
+# Powerlevel9k command line 左邊想顯示的內容
+POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(os_icon virtualenv dir dir_writable vcs) 
 # Powerlevel9k command line 右邊想顯示的內容
-POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status ram)
+POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(ram)
 
 ```
 
