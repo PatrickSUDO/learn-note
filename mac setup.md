@@ -26,9 +26,25 @@ Iterm2 + zsh
 
 [Homebrew](http://brew.sh/) 
 
+install brew
+
+```
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
+
+install zsh
+
+```
+brew install zsh
+```
+
+You should also amend your PATH, so that the versions of tools that are installed with Homebrew take precedence over others. To do this, edit the file *.zshrc* in your home directory to include this line:
+
 ```
 export PATH="/usr/local/bin:/usr/local/sbin:~/bin:$PATH"
 ```
+
+You need to close all terminal windows for this change to take effect.
 
 ```
 brew doctor
@@ -76,12 +92,6 @@ git config --global color.ui auto
 
 ```bash
 brew install iterm2
-```
-
-
-
-```bash
-brew install zsh
 ```
 
 
@@ -157,6 +167,12 @@ POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(virtualenv dir dir_writable vcs)
 POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status ram)
 ```
 
+iterms keybind setting:
+
+https://stackoverflow.com/questions/42735929/how-to-delete-a-word-in-iterm-in-mac-os
+
+
+
 
 
 ## colors
@@ -224,7 +240,7 @@ source ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 ```bash
 # 下載套件
-git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+$ git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 # 啟用套件
 plugins=(git zsh-autosuggestions zsh-syntax-highlighting)
 ```
