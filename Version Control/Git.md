@@ -236,7 +236,7 @@ git restore [--source=<tree>] [--staged] [--worktree] <pathspec>…
 
 还原即恢复到过去某一状态，意味着该命令需要指定已有的某个文件快照（提交、分支等）作为数据源，通过 source 选项设置。
 可以选择对工作区（--worktree ）、暂存区（--staged ）或两者同时生效，默认值为仅工作区。当指定的位置为工作区时，默认数据源为暂存区的文件快照；当指定的位置包含暂存区时，默认数据源为 HEAD。
-可以选择对指定的文件或一些文件生效，通过 <pathspec> 参数指定。
+可以选择对指定的文件或一些文件生效，通过 `<pathspec>` 参数指定。
 我们继续使用之前的 Git 仓库作为示例，假设我们修改了 main.py 并已经加入到了暂存区：
 
 我们想将 main.py 取消暂存，即将暂存区中的 main.py 还原为 HEAD 中的内容，此时 HEAD 是默认的 source ，因此可执行如下命令：
@@ -253,24 +253,27 @@ git restore main.py
 
 这只是最基础的用法，还可以指定 --source 为任意提交 ID 将文件还原为该提交中的状态。
 ```
-git restore [--source=<tree-ish>] --staged <pathspec>... 
+git restore [--source=<tree-ish>] --staged < pathspec >... 
 ```
 和
- ```
+
+```
 git reset [<tree-ish>] <pathspec> 
- ```
+```
+ 
 在使用上是等价的。较新版本的 Git 会在命令行中提示使用 restore 命令来取消暂存或丢弃工作区的改动。
 
 ## git switch
 git switch 命令专门用于切换分支，可以用来替代 checkout 的部分用途。
 
 创建并切换到指定分支（ -C 大小写皆可）：
+
 ```
-git switch -C <new-branch>
+git switch -C < new-branch >
 ```
 切换到已有分支：
 ```
-git switch <branch>
+git switch < branch >
 ```
 和 checkout 一样， switch 对工作区是安全的，它会尝试合并工作区和暂存区中的本地更改，如果无法完成合并则会中止操作，本地更改会被保留。
 
