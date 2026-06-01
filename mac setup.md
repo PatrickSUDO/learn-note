@@ -1,463 +1,268 @@
 # Mac Setup
 
-## Useful Link
+> **Updated 2026 · Apple Silicon (M-series) · macOS 14+ · Ghostty · Google Sans Code**
+>
+> 原本這份文件以 iTerm2 為主，現在已改用 **Ghostty**。
+> 所有 Homebrew 路徑改為 Apple Silicon 的 `/opt/homebrew`（Intel Mac 請改回 `/usr/local`）。
 
+---
 
+## Useful Links
 
-Mac general
+- Mac general: https://www.stuartellis.name/articles/mac-setup/
+- Alfred + Docker settings (GUI，安裝後自行設定)
 
-- https://www.stuartellis.name/articles/mac-setup/
+---
 
-Iterm2 + zsh
+## 1. Homebrew
 
-- https://juejin.cn/post/6844904178075058189 
-- https://medium.com/%E6%95%B8%E6%93%9A%E4%B8%8D%E6%AD%A2-not-only-data/macos-%E7%9A%84-terminal-%E5%A4%A7%E6%94%B9%E9%80%A0-iterms-oh-my-zsh-%E5%85%A8%E6%94%BB%E7%95%A5-77d5aae87b10
+安裝 Homebrew：
 
-
-
-- Alfred4 and reset the hotkey
-- Docker setting
-
-
-
-## Terminal setup (oh-my-zsh + iterms)
-
-### Setting Up Homebrew
-
-[Homebrew](http://brew.sh/) 
-
-install brew
-
-```
+```bash
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
 
-install zsh
+裝好後，**Apple Silicon** 需要把 Homebrew 加入 shell（寫進 `~/.zshrc`）：
 
-```
-brew install zsh
-```
-
-You should also amend your PATH, so that the versions of tools that are installed with Homebrew take precedence over others. To do this, edit the file *.zshrc* in your home directory to include this line:
-
-```
-export PATH="/usr/local/bin:/usr/local/sbin:~/bin:$PATH"
+```bash
+eval "$(/opt/homebrew/bin/brew shellenv)"
 ```
 
-You need to close all terminal windows for this change to take effect.
+確認安裝正常：
 
-```
+```bash
 brew doctor
-```
-
-```
 brew update
 ```
 
-### Enabling Auto Completion of Commands
+---
 
-Many command-line tools provide automatic completion of commands. These include Git, curl and the AWS command-line tool. Homebrew installs the files for each command-line tool that provides completion, but it does not enable automatic completion in your shell.
-
-To enable auto completion, edit the file *.zshrc* in your home directory to include this line:
+## 2. Git
 
 ```bash
-autoload bashcompinit && bashcompinit
-```
-
-Close all of the Terminal windows. Every new Terminal window will support autocompletion.
-
-To use auto completion, type the name of the command, and press the Tab key on your keyboard. You will see a list of possible completions. Press the Tab key to cycle through the completions, and press the Enter key to accept a completion.
-
-### Installing the Git Version Control System
-
-```
 brew install git
 ```
 
-```
+```bash
 git config --global user.name "Your Name"
 git config --global user.email "you@your-domain.com"
-```
-
-```
 git config --global color.ui auto
-
 ```
 
+---
 
+## 3. Terminal：Ghostty
 
-
-
-## Terminal customization
+**不再使用 iTerm2**，改用 [Ghostty](https://ghostty.org/)。
 
 ```bash
-brew install iterm2
+brew install --cask ghostty
 ```
 
+建立設定檔 `~/.config/ghostty/config`：
 
+```
+# Primary font — Google Sans Code
+# Symbols Nerd Font is listed second as a fallback to render powerline/p10k icons
+font-family = "Google Sans Code"
+font-family = "Symbols Nerd Font"
+font-size = 14
 
-install oh my zsh
+# mirrors iTerm2 "Natural Text Editing"
+# alt+← / alt+→ jumps words; alt+backspace deletes word
+macos-option-as-alt = true
+
+# Appearance
+macos-titlebar-style = tabs
+copy-on-select = true
+cursor-style = block
+```
+
+> **重點**：`font-family` 可以寫多行，Ghostty 會依順序找字符，Google Sans Code 找不到的圖示（如 p10k 箭頭）會自動 fallback 到 Symbols Nerd Font。
+
+---
+
+## 4. 字體
+
+```bash
+brew install --cask font-google-sans-code font-symbols-only-nerd-font
+```
+
+> ⚠️ `brew tap homebrew/cask-fonts` 已廢棄，不需要。舊的 `brew cask install` 寫法也改成 `brew install --cask`。
+
+---
+
+## 5. oh-my-zsh + Powerlevel10k
+
+安裝 oh-my-zsh：
 
 ```bash
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 ```
 
-
-
-
-
-在安裝 Oh-my-zsh 後他會問你是否要默認 zsh 為預設 shell，大大方方的按下 y + enter，就正式進入 Oh-my-zsh 的世界啦！
-
-如果當初忘記轉換的玩家，可以在安裝完後輸入下列指令轉換。
-
-
+安裝 Powerlevel10k 主題：
 
 ```bash
-sudo sh -c "echo $(which zsh) >> /etc/shells"
-chsh -s $(which zsh)
-```
-
-
-
-- 用 `Homebrew` 安裝的 `Zsh` 位置在 `/usr/local/bin/zsh`，而系統安裝的則會在` /bin/zsh`。
-
-
-
-#### 安装字体
-
-你可以如官网所说，通过 `brew` 来安装：
-
-```bash
-brew tap homebrew/cask-fonts
-brew cask install font-hack-nerd-font
-```
-
-#### zshrc 设置字体
-
-先安裝powerlevel10k
-
-```
 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/themes/powerlevel10k
 ```
 
-
+在 `~/.zshrc` 設定主題：
 
 ```bash
 ZSH_THEME="powerlevel10k/powerlevel10k"
 ```
 
-注意，需要设置在 `ZSH_THEME` 之前。
-
-#### iTerm2 设置字体
-
-操作路径：菜单栏 -> Profiles -> Open Profiles -> Edit Profiles -> 选择 Text
-
-![img](https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2020/6/1/1726f38f0a297b08~tplv-t2oaga2asx-zoom-in-crop-mark:1304:0:0:0.awebp)
-
-这样，所有的图标就都可以正常显示了。
-
-
-
-```
-# Powerlevel9k icon 顯示
-POWERLEVEL9K_MODE='nerdfont-complete'
-# Powerlevel9k command line 左邊想顯示的內容
-POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(virtualenv dir dir_writable vcs) 
-# Powerlevel9k command line 右邊想顯示的內容
-POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status ram)
-```
-
-iterms keybind setting:
-
-https://stackoverflow.com/questions/42735929/how-to-delete-a-word-in-iterm-in-mac-os
-
-
-
-
-
-## colors
-
-这是一个文件目录美化插件，如图所示：
-
-![img](https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2020/6/1/172700257e52ae07~tplv-t2oaga2asx-zoom-in-crop-mark:1304:0:0:0.awebp)
-
-```bash
-gem install colorls
-```
-
-然后执行 `colorls` 就好了，你也可以设置 `alias` 更高效一点：
-
-```bash
-alias lc='colorls -lA --sd'
-```
-
-设置了别名之后，就像我一样，输入 `lc` 就好了。
-
-
-
-**調整顯示顏色：**
-
-```bash
-# 替換調 fg=8 換成其他顏色
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=30'
-```
-
-`fg=8` 的數字是 0 ~ 255，或者直接填寫常用的 8 種顏色文字 `black, red, green, yellow, blue, magenta, cyan and white` 我自己是習慣使用 `fg=30`的色票，不會太搶眼卻又不至於看不到文字。
-
-
-
-## Zsh-autosuggestions
-
-能夠自動幫你把過去輸入過的資訊提示出來，真的真的真的省了很多輸入的時間啊啊啊～大推這個套件，用過後就回不去了xD
-
-[zsh-users/zsh-autosuggestionsFish-like autosuggestions for zsh. Contribute to zsh-users/zsh-autosuggestions development by creating an account on…github.com](https://github.com/zsh-users/zsh-autosuggestions/blob/master/INSTALL.md)
-
-```bash
-# 下載套件至 Zsh 的 plugin 裡
-git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
-# 啟用套件（在 ~/.zshrc 裡）
-plugins=(zsh-autosuggestions)
-```
-
-如果對於預設的提示字體顏色覺得太深，可以到下列位置修改：
-
-> ```
-> ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
-> ```
-
-
-
-```bash
-＃If not working 加在~/.zshrc
-source ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
-```
-
-
-
-## zsh-syntax-highlighting
-
-不同的指令會自動幫你上色，讓你知道自己是不是輸入正確的指令。
-
-```bash
-# 下載套件
-$ git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
-# 啟用套件
-plugins=(git zsh-autosuggestions zsh-syntax-highlighting)
-```
-
-
-
-```bash
-#if not working 加在~/.zshrc
-source ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax highlighting.zsh
-```
-
-
-
-
-
-## Naviexport EDITOR="nvim"
-
-命令行記錄套件，能夠一站式的紀錄所有過去的指令，還有內建一堆已經建立好的快捷！
-
-[命令行忘性大？这个开源备忘工具一次解决你的所有烦恼实名推荐这个小工具，交互式的命令行备忘录，简直解决了我们记不住命令的烦恼。 命令行是非常高效的工具，但一个很常见的现象是，很多命令行过一段时间就容易忘。举个栗子，如果我们常用 git 命令行管理代码、利用 conda…zhuanlan.zhihu.com](https://zhuanlan.zhihu.com/p/83584149)
-
-安裝指令：
-
-```bash
-brew install navi
-```
-
-## autojump 插件
-
-`autojump` 插件会记录你所有的访问记录，不同单独配置，直接访问即可。
-
-### 安装
-
-```bash
-brew install autojump
-```
-
-##### 配置
-
-打开 `~/.zshrc` 加一行代码：
-
-```bash
-[[ -s $(brew --prefix)/etc/profile.d/autojump.sh ]] && . $(brew --prefix)/etc/profile.d/autojump.sh
-```
-
-然后就是 `source` 一下就生效了。
-
-##### 使用
-
-使用 `j` 命令就可以执行 `auto-jump`，比如 `j articles`：
-
-![img](https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2020/6/1/1727002559305cd1~tplv-t2oaga2asx-zoom-in-crop-mark:1304:0:0:0.awebp)
-
-前提是你访问过 `articles` 目录，也就是你得让它记住。
-
-
-
-
-
-## Fix 
-
-### Fix zsh too many warning
-
-```
-#Fix zsh too many warning
-ZSH_DISABLE_COMPFIX=true
-```
-
-
-
-### Fix the hotkey change in iterm2
-
-- Go to iTerm Preferences → Profiles
-- select your profile
-- then the `Keys` tab with its sub-tab `Key Mappings`
-- Click `Load Preset`...
-- and choose `Natural Text Editing`
+安裝好後，開新 terminal 會自動跑 `p10k configure` 互動設定；也可以隨時手動跑。
 
 ---
 
-zshrc example
+## 6. zsh 外掛
 
+### zsh-autosuggestions
+
+自動顯示你過去輸入過的指令建議（灰色），按 `→` 或 `End` 接受。
+
+```bash
+git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 ```
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
+
+### zsh-syntax-highlighting
+
+指令上色，正確的指令顯示綠色，錯誤的顯示紅色。
+
+```bash
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+```
+
+在 `.zshrc` 的 `plugins` 行啟用（**zsh-syntax-highlighting 必須放最後**）：
+
+```bash
+plugins=(git zsh-autosuggestions autojump zsh-syntax-highlighting)
+```
+
+---
+
+## 7. 現代 CLI 工具
+
+```bash
+brew install eza fzf ripgrep fd bat navi autojump
+```
+
+| 工具 | 用途 | 取代 |
+|------|------|------|
+| `eza` | 好看的 ls，支援 icons / git 狀態 | 舊的 `colorls`（Ruby gem，已過時）|
+| `fzf` | 模糊搜尋。`Ctrl-R` 搜歷史、`Ctrl-T` 找檔案、`Alt-C` 跳目錄 | — |
+| `ripgrep` (`rg`) | 超快的 grep | `grep` |
+| `fd` | 好用的 find | `find` |
+| `bat` | 有語法高亮的 cat | `cat` |
+| `navi` | 互動式指令備忘錄 | — |
+| `autojump` (`j`) | 記錄訪問記錄，`j <目錄部分名稱>` 快速跳轉 | `cd` |
+
+### autojump 設定
+
+在 `~/.zshrc` 加一行：
+
+```bash
+[ -f "$(brew --prefix)/etc/profile.d/autojump.sh" ] && . "$(brew --prefix)/etc/profile.d/autojump.sh"
+```
+
+---
+
+## 8. 語言 / 版本管理
+
+```bash
+brew install python uv node pyenv
+```
+
+- **python**：系統 Python 後援
+- **uv**：現代 Python 套件 / 虛擬環境管理工具（取代 pip/virtualenv/conda）
+- **node**：Node.js + npm
+- **pyenv**：多版本 Python 切換
+
+pyenv 在 `~/.zshrc` 加入：
+
+```bash
+export PYENV_ROOT="$HOME/.pyenv"
+[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init - zsh)"
+```
+
+---
+
+## 9. 生產力 App
+
+```bash
+brew install --cask alfred rectangle tableplus docker visual-studio-code google-chrome
+```
+
+| App | 用途 |
+|-----|------|
+| Alfred | 快速啟動 / 搜尋（取代 Spotlight）|
+| Rectangle | 鍵盤快速視窗排版 |
+| TablePlus | 資料庫 GUI (MySQL/Postgres/SQLite 等)|
+| Docker | 容器化開發環境 |
+| VS Code | 程式碼編輯器 |
+| Google Chrome | 開發用瀏覽器 |
+
+---
+
+## 10. 完整 `~/.zshrc` 範例
+
+```zsh
+# ===== Powerlevel10k instant prompt (keep near top of .zshrc) =====
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-# If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
+# ===== Homebrew (Apple Silicon) =====
+eval "$(/opt/homebrew/bin/brew shellenv)"
 
-# Path to your oh-my-zsh installation.
+# ===== PATH =====
+export PATH="$HOME/.local/bin:$PATH"
+
+# ===== pyenv =====
+export PYENV_ROOT="$HOME/.pyenv"
+[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init - zsh)"
+
+# ===== oh-my-zsh =====
 export ZSH="$HOME/.oh-my-zsh"
-
-# Set name of the theme to load --- if set to "random", it will
-# load a random theme each time oh-my-zsh is loaded, in which case,
-# to know which specific one was loaded, run: echo $RANDOM_THEME
-# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 ZSH_THEME="powerlevel10k/powerlevel10k"
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=30'
 ZSH_DISABLE_COMPFIX=true
-
-
-# Set list of themes to pick from when loading at random
-# Setting this variable when ZSH_THEME=random will cause zsh to load
-# a theme from this variable instead of looking in $ZSH/themes/
-# If set to an empty array, this variable will have no effect.
-# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
-
-# Uncomment the following line to use case-sensitive completion.
-# CASE_SENSITIVE="true"
-
-# Uncomment the following line to use hyphen-insensitive completion.
-# Case-sensitive completion must be off. _ and - will be interchangeable.
-# HYPHEN_INSENSITIVE="true"
-
-# Uncomment one of the following lines to change the auto-update behavior
-# zstyle ':omz:update' mode disabled  # disable automatic updates
-# zstyle ':omz:update' mode auto      # update automatically without asking
-# zstyle ':omz:update' mode reminder  # just remind me to update when it's time
-
-# Uncomment the following line to change how often to auto-update (in days).
-# zstyle ':omz:update' frequency 13
-
-# Uncomment the following line if pasting URLs and other text is messed up.
-# DISABLE_MAGIC_FUNCTIONS="true"
-
-# Uncomment the following line to disable colors in ls.
-# DISABLE_LS_COLORS="true"
-
-# Uncomment the following line to disable auto-setting terminal title.
-# DISABLE_AUTO_TITLE="true"
-
-# Uncomment the following line to enable command auto-correction.
-# ENABLE_CORRECTION="true"
-
-# Uncomment the following line to display red dots whilst waiting for completion.
-# You can also set it to another string to have that shown instead of the default red dots.
-# e.g. COMPLETION_WAITING_DOTS="%F{yellow}waiting...%f"
-# Caution: this setting can cause issues with multiline prompts in zsh < 5.7.1 (see #5765)
-# COMPLETION_WAITING_DOTS="true"
-
-# Uncomment the following line if you want to disable marking untracked files
-# under VCS as dirty. This makes repository status check for large repositories
-# much, much faster.
-# DISABLE_UNTRACKED_FILES_DIRTY="true"
-
-# Uncomment the following line if you want to change the command execution time
-# stamp shown in the history command output.
-# You can set one of the optional three formats:
-# "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
-# or set a custom format using the strftime function format specifications,
-# see 'man strftime' for details.
-# HIST_STAMPS="mm/dd/yyyy"
-
-# Would you like to use another custom folder than $ZSH/custom?
-# ZSH_CUSTOM=/path/to/new-custom-folder
-
-# Which plugins would you like to load?
-# Standard plugins can be found in $ZSH/plugins/
-# Custom plugins may be added to $ZSH_CUSTOM/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup.
-plugins=(git zsh-autosuggestions zsh-syntax-highlighting)
-plugins=(autojump)
-
-
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=30'
+# note: zsh-syntax-highlighting must stay last in plugins list
+plugins=(git zsh-autosuggestions autojump zsh-syntax-highlighting)
 source $ZSH/oh-my-zsh.sh
 
-# User configuration
+# ===== fzf (Ctrl-R history / Ctrl-T files / Alt-C cd) =====
+source <(fzf --zsh)
 
-# export MANPATH="/usr/local/man:$MANPATH"
+# ===== autojump (j <dir>) =====
+[ -f "$(brew --prefix)/etc/profile.d/autojump.sh" ] && . "$(brew --prefix)/etc/profile.d/autojump.sh"
 
-# You may need to manually set your language environment
-# export LANG=en_US.UTF-8
+# ===== Aliases =====
+alias ls='eza --icons --group-directories-first'
+alias lc='eza -lA --git --icons --group-directories-first'
+alias cat='bat'
+# Uncomment if you want to override system defaults:
+# alias find='fd'
+# alias grep='rg'
 
-# Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
-
-# Compilation flags
-# export ARCHFLAGS="-arch x86_64"
-
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
-#
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
-
-#M1
-export PATH="/opt/homebrew/bin:$PATH"
-export PATH="/opt/homebrew/opt/python/libexec/bin:$PATH"
-
-
-source ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
-
-[ -f $(brew --prefix)/etc/profile.d/autojump.sh ] && . $(brew --prefix)/etc/profile.d/autojump.sh
-
-
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+# ===== Powerlevel10k =====
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-
-# Powerlevel9k icon 顯示
-POWERLEVEL9K_MODE='nerdfont-complete'
-# Powerlevel9k command line 左邊想顯示的內容
-POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(os_icon virtualenv dir dir_writable vcs) 
-# Powerlevel9k command line 右邊想顯示的內容
-POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(ram)
-
 ```
 
+---
+
+## 常見問題修復
+
+### zsh 啟動出現大量 warning
+
+```bash
+# 加在 ~/.zshrc
+ZSH_DISABLE_COMPFIX=true
+```
+
+### alt 鍵無法刪字 / 跳字
+
+確認 Ghostty 設定有 `macos-option-as-alt = true`（已包含在第 3 節的設定中）。
