@@ -1,0 +1,17 @@
+# Primary font — Google Sans Code
+# Symbols Nerd Font is listed second as a fallback to render powerline/p10k icons
+font-family = "Google Sans Code"
+font-family = "Symbols Nerd Font"
+font-size = 14
+
+# Option key behaviour: mirrors iTerm2 "Natural Text Editing"
+# alt+← / alt+→ jump words; alt+backspace deletes word
+macos-option-as-alt = true
+
+# Appearance
+macos-titlebar-style = tabs
+copy-on-select = true
+cursor-style = block
+
+# Deepen ANSI color 4 (used by p10k path segment background)
+palette = 4=#2E7D32

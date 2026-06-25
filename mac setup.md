@@ -59,7 +59,7 @@ git config --global color.ui auto
 brew install --cask ghostty
 ```
 
-建立設定檔 `~/.config/ghostty/config`：
+建立設定檔 `~/.config/ghostty/config`（完整設定也放在 [`some-setup/ghostty/config`](some-setup/ghostty/config)）：
 
 ```
 # Primary font — Google Sans Code
@@ -68,14 +68,17 @@ font-family = "Google Sans Code"
 font-family = "Symbols Nerd Font"
 font-size = 14
 
-# mirrors iTerm2 "Natural Text Editing"
-# alt+← / alt+→ jumps words; alt+backspace deletes word
+# Option key behaviour: mirrors iTerm2 "Natural Text Editing"
+# alt+← / alt+→ jump words; alt+backspace deletes word
 macos-option-as-alt = true
 
 # Appearance
 macos-titlebar-style = tabs
 copy-on-select = true
 cursor-style = block
+
+# Deepen ANSI color 4 (used by p10k path segment background)
+palette = 4=#2E7D32
 ```
 
 > **重點**：`font-family` 可以寫多行，Ghostty 會依順序找字符，Google Sans Code 找不到的圖示（如 p10k 箭頭）會自動 fallback 到 Symbols Nerd Font。
