@@ -117,6 +117,25 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 
 安裝好後，開新 terminal 會自動跑 `p10k configure` 互動設定；也可以隨時手動跑。
 
+### 套用已儲存的設定（跳過 wizard）
+
+如果你想直接用存好的 rainbow theme 設定，不跑互動 wizard：
+
+```bash
+curl -o ~/.p10k.zsh \
+  https://raw.githubusercontent.com/PatrickSUDO/learn-note/main/some-setup/powerlevel10k/.p10k.zsh
+```
+
+然後確認 `~/.zshrc` 底部有這行（Section 10 的範例已包含）：
+
+```zsh
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+```
+
+重開 terminal 就直接套用，不會再跳出 wizard。
+
+> **字型必須先裝好**（Section 4），否則 icon 會顯示成方塊。
+
 ---
 
 ## 6. zsh 外掛
